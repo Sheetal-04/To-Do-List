@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS | COURSES-CRUD </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+    <style>
+        #head {
+            padding: 8px;
+            text-align: center;
+        }
+
+        #heading {
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="head">
+        <img src="academic.png" alt="img">
+        <h3 id="quote"> <b> “Subtracting from your list of priorities is as important as adding to it.” </b></h3>
+    </div>
+    <div>
+        <h1 id="heading"> <b> <u>TO-DO-LIST </u> </b></h1>
+    </div>
+    <main>
+        <div class="container mt-5 col-6">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Chapter Name" aria-label="Recipient's username"
+                    aria-describedby="button-addon2">
+                <button id="btn" class="btn btn-outline-success" type="button" id="button-addon2">Add</button>
+            </div>
+            <ul id="parentlist" class="list-group">
+                <li class="list-group-item d-flex justify-content-between">
+                    <h3 class="flex-grow-1">Chapter 1</h3>
+                    <button id="btn2" class="btn btn-warning mx-3" onclick="editChapter(this)">Edit</button>
+                    <button id="btn3" class="btn btn-danger" onclick="removeChapter(this)">Remove</button>
+                </li>
+            </ul>
+        </div>
+    </main>
+    <script>
+        // .................Add Button................. 
+        let addbtn = document.getElementById('btn');
+        btn.addEventListener('click', addChapter);
+        let parentlist = document.getElementById('parentlist');
+        function addChapter(e) {
+            if (parentlist.children[0].className == "emptyMsg") {
+                console.log(parentlist.children[0].className);
+                parentlist.children[0].remove();
+            }
+            let currentBtn = e.currentTarget;
+            let currentInput = currentBtn.previousElementSibling;
+            let chaptername = currentInput.value;
+
+            const newli = document.createElement('li');
+            // newli.classList.add('list-group-item');
+            newli.className = "list-group-item d-flex justify-content-between"
+            // newli.textContent = currentInput.value;
+            newli.innerHTML = `<h3 class="flex-grow-1">${chaptername}</h3>
+                        <button class="btn btn-warning mx-3" onclick="editChapter(this)">Edit</button> 
+                        <button class="btn btn-danger"  onclick="removeChapter(this)">Remove</button> `;
+            parentlist.appendChild(newli);
+        }
+        //..................Remove.......................//
+        function removeChapter(currElement) {
+            currElement.parentElement.remove();
+            let parentlist = document.getElementById('parentlist');
+            if (parentlist.children.length <= 0) {
+                let newEmptyMessage = document.createElement("h3");
+                newEmptyMessage.classList.add("emptyMsg");
+                newEmptyMessage.textContent = "Nothing is here.Please add a chapter!! ";
+                parentlist.appendChild(newEmptyMessage);
+            }
+        }
+
+        //........................Edit....................... //
+        function editChapter(currElement) {
+            if (currElement.textContent == "Done") {
+                currElement.textContent = "Edit";
+                let currChapterName = currElement.previousElementSibling.value;
+                let currHeading = document.createElement('h3');
+                currHeading.className = "flex-grow-1"
+                currHeading.textContent = currChapterName;
+                currElement.parentElement.replaceChild(currHeading, currElement.previousElementSibling)
+            }
+
+            else {
+                currElement.textContent = "Done";
+                let currChapterName = currElement.previousElementSibling.textContent;
+                let currInput = document.createElement('input');
+                currInput.type = "text";
+                currInput.className = "form-control";
+                currInput.placeholder = "Chapter Name";
+                currInput.value = currChapterName;
+
+                currElement.parentElement.replaceChild(currInput, currElement.previousElementSibling)
+            }
+        }
+
+    </script>
+</body>
+
+</html>
